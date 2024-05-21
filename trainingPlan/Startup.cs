@@ -16,6 +16,7 @@ public class Startup
 
    public void ConfigureServices(IServiceCollection services)
     {
+        // dodajemy kontekst bazy
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
 
