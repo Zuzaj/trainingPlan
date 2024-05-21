@@ -1,5 +1,6 @@
 @model IEnumerable<trainingPlan.Models.Training>
-@{  ViewData["Title"] = "Training";
+@{
+    ViewData["Title"] = "Training";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -8,7 +9,7 @@
     <a asp-action="Create">Create new</a>
 </p>
 <table class="table">
-    <thread>
+    <thead>
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -27,9 +28,10 @@
             </th>
             <th></th>
         </tr>
-    </thread>
+    </thead>
     <tbody>
-        @foreach (var item in Model){
+        @foreach (var item in Model)
+        {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.Name)
@@ -47,10 +49,11 @@
                     @Html.DisplayFor(modelItem => item.Difficulty)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-asp-route_id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-asp-route_id="@item.Id">Details</a>
-                    <a asp-action="Delete" asp-asp-route_id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                 </td>
             </tr>
         }
     </tbody>
+</table>
