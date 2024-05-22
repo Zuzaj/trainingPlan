@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using trainingPlan.Models;
+using Microsoft.EntityFrameworkCore;
+
 
 
 public class AccountController : Controller
@@ -42,10 +44,7 @@ public class AccountController : Controller
 
     public IActionResult Register()
     {
-        if (!UserIsAdmin())
-        {
-            return Unauthorized();
-        }
+
 
         return View();
     }
@@ -53,6 +52,25 @@ public class AccountController : Controller
     {
         HttpContext.Session.Clear();
         return RedirectToAction("Login");
+    }
+    [HttpPost]
+    public async Task<IActionResult> Register(User user)
+    {
+        if (ModelState.IsValid)
+        {
+            // Zakładając, że masz odpowiednią metodę do hashowania hasła
+            //user.PasswordHash = HashPassword(user.PasswordHash);
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("Index");
+        }
+        return View(user);
+    }
+    public async Task<IActionResult> Index()
+    {
+        var users = await _context.Users.ToListAsync();
+        return View(users);
     }
 
     private bool UserIsAdmin()

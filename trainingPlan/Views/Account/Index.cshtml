@@ -1,8 +1,27 @@
 @model IEnumerable<trainingPlan.Models.User>
 
-<ul>
-    @foreach (var user in Model)
-    {
-        <li>@user.Username</li>
-    }
-</ul>
+@{
+    ViewData["Title"] = "User List";
+}
+
+<h2>User List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Username</th>
+            <th>Password Hash</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@user.Username</td>
+                <td>@user.PasswordHash</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="@Url.Action("Register", "Account")" class="btn btn-primary">Add New User</a>
