@@ -12,4 +12,16 @@ using trainingPlan.Models;
          public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
         public DbSet<Training> Trainings { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Plan> Plans { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Plan>()
+                .HasMany(p => p.Trainings)
+                .WithMany()
+                .UsingEntity(j => j.ToTable("PlanTrainings"));
+        }
+        
     }
