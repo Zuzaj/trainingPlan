@@ -74,20 +74,20 @@ namespace trainingPlan.Controllers
             return CreatedAtAction("GetUser", new { id = user.Id }, user);
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
-        {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        // [HttpDelete("{id}")]
+        // public async Task<IActionResult> DeleteUser(int id)
+        // {
+        //     var user = await _context.Users.FindAsync(id);
+        //     if (user == null)
+        //     {
+        //         return NotFound();
+        //     }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
+        //     _context.Users.Remove(user);
+        //     await _context.SaveChangesAsync();
 
-            return RedirectToAction("Index", "Account");
-        }
+        //     return RedirectToAction("Index", "Account");
+        // }
 
         private bool UserExists(int id)
         {
