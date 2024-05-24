@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace trainingPlan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240524124931_NewModel3")]
-    partial class NewModel3
+    [Migration("20240524132212_NewModell")]
+    partial class NewModell
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,21 +32,6 @@ namespace trainingPlan.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Difficulties");
-                });
-
-            modelBuilder.Entity("trainingPlan.Models.PlanTraining", b =>
-                {
-                    b.Property<int>("PlanViewId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int>("TrainingId")
-                        .HasColumnType("INTEGER");
-
-                    b.HasKey("PlanViewId", "TrainingId");
-
-                    b.HasIndex("TrainingId");
-
-                    b.ToTable("PlanTrainings");
                 });
 
             modelBuilder.Entity("trainingPlan.Models.PlanView", b =>
@@ -94,12 +79,17 @@ namespace trainingPlan.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("PlanViewId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("TrainingTypeId")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DifficultyId");
+
+                    b.HasIndex("PlanViewId");
 
                     b.HasIndex("TrainingTypeId");
 
@@ -140,25 +130,6 @@ namespace trainingPlan.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("trainingPlan.Models.PlanTraining", b =>
-                {
-                    b.HasOne("trainingPlan.Models.PlanView", "PlanView")
-                        .WithMany("PlanTrainings")
-                        .HasForeignKey("PlanViewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("trainingPlan.Models.Training", "Training")
-                        .WithMany("PlanTrainings")
-                        .HasForeignKey("TrainingId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("PlanView");
-
-                    b.Navigation("Training");
-                });
-
             modelBuilder.Entity("trainingPlan.Models.PlanView", b =>
                 {
                     b.HasOne("trainingPlan.Models.User", "User")
@@ -176,6 +147,10 @@ namespace trainingPlan.Migrations
                         .WithMany("Trainings")
                         .HasForeignKey("DifficultyId");
 
+                    b.HasOne("trainingPlan.Models.PlanView", null)
+                        .WithMany("Trainings")
+                        .HasForeignKey("PlanViewId");
+
                     b.HasOne("trainingPlan.Models.TrainingType", "TrainingType")
                         .WithMany("Trainings")
                         .HasForeignKey("TrainingTypeId");
@@ -192,12 +167,7 @@ namespace trainingPlan.Migrations
 
             modelBuilder.Entity("trainingPlan.Models.PlanView", b =>
                 {
-                    b.Navigation("PlanTrainings");
-                });
-
-            modelBuilder.Entity("trainingPlan.Models.Training", b =>
-                {
-                    b.Navigation("PlanTrainings");
+                    b.Navigation("Trainings");
                 });
 
             modelBuilder.Entity("trainingPlan.Models.TrainingType", b =>

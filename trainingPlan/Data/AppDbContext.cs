@@ -10,7 +10,6 @@ public class AppDbContext : DbContext
     public DbSet<Training> Trainings { get; set; }
     public DbSet<Difficulty> Difficulties { get; set; }
     public DbSet<TrainingType> TrainingTypes { get; set; }
-    public DbSet<PlanTraining> PlanTrainings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -22,19 +21,6 @@ public class AppDbContext : DbContext
             .WithMany(u => u.PlanViews)
             .HasForeignKey(p => p.UserId);
 
-        // Configuring many-to-many relationship between PlanView and Training through PlanTraining
-        modelBuilder.Entity<PlanTraining>()
-            .HasKey(pt => new { pt.PlanViewId, pt.TrainingId });
-
-        modelBuilder.Entity<PlanTraining>()
-            .HasOne(pt => pt.PlanView)
-            .WithMany(p => p.PlanTrainings)
-            .HasForeignKey(pt => pt.PlanViewId);
-
-        modelBuilder.Entity<PlanTraining>()
-            .HasOne(pt => pt.Training)
-            .WithMany(t => t.PlanTrainings)
-            .HasForeignKey(pt => pt.TrainingId);
 
         // Configuring one-to-many relationship between Difficulty and Training
         modelBuilder.Entity<Training>()

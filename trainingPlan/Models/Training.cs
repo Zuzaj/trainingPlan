@@ -12,6 +12,6 @@ namespace trainingPlan.Models
         public Difficulty? Difficulty { get; set; }
         public int? TrainingTypeId { get; set; }
         public TrainingType? TrainingType { get; set; }
-        public ICollection<PlanTraining> PlanTrainings { get; set; } = new List<PlanTraining>();
+
     }
 }

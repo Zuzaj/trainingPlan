@@ -17,7 +17,7 @@ namespace trainingPlan.Models
 
         public int TotalDuration { get; set; }
 
-        public ICollection<PlanTraining> PlanTrainings { get; set; } = new List<PlanTraining>();
+        public ICollection<Training> Trainings { get; set; } = new List<Training>();
 
         public string? Comments { get; set; }
     }
