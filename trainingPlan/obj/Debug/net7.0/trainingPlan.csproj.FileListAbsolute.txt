@@ -152,3 +152,6 @@ C:/Users/User/Documents/GitHub/trainingPlan/trainingPlan/obj/Debug/net7.0/refint
 C:/Users/User/Documents/GitHub/trainingPlan/trainingPlan/obj/Debug/net7.0/trainingPlan.pdb
 C:/Users/User/Documents/GitHub/trainingPlan/trainingPlan/obj/Debug/net7.0/trainingPlan.genruntimeconfig.cache
 C:/Users/User/Documents/GitHub/trainingPlan/trainingPlan/obj/Debug/net7.0/ref/trainingPlan.dll
+C:\Users\User\Documents\GitHub\trainingPlan\trainingPlan\obj\Debug\net7.0\trainingPlan.dll
+C:\Users\User\Documents\GitHub\trainingPlan\trainingPlan\obj\Debug\net7.0\refint\trainingPlan.dll
+C:\Users\User\Documents\GitHub\trainingPlan\trainingPlan\obj\Debug\net7.0\trainingPlan.pdb
