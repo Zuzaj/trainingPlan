@@ -2,15 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace trainingPlan.Models
 {
     public class User
     {
         public int Id { get; set; }
-        public string Username { get; set; }
-        public string PasswordHash { get; set; }
-        public string Password { get; set; }
-        public ICollection<PlanView> Plans { get; set; } = new List<PlanView>();
+        public string Username { get; set; } = default!;
+        public string PasswordHash { get; set; } = default!;
+
+        [NotMapped]
+        public string Password { get; set; } = default!;
+
+        public ICollection<PlanView> PlanViews { get; set; } = new List<PlanView>();
     }
 }

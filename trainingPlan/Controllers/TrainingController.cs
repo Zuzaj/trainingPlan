@@ -20,7 +20,7 @@ namespace trainingPlan.Controllers
             _context = context;
         }
 
-       [HttpGet("")]
+        [HttpGet("")]
         public async Task<IActionResult> Index()
         {
             return _context.Trainings != null ?

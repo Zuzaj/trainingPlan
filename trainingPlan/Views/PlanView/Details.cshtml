@@ -1,88 +1,88 @@
-@model trainingPlan.Models.PlanView
+@* @model trainingPlan.Models.PlanView
 
 @{
-    ViewData["Title"] = "Plan Details";
+ViewData["Title"] = "Plan Details";
 }
 
 <h2>Plan Details</h2>
 
 <div>
-    <h4>Plan</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            UserId
-        </dt>
-        <dd class="col-sm-10">
-            @Model.UserId
-        </dd>
-        <dt class="col-sm-2">
-            Week Start
-        </dt>
-        <dd class="col-sm-10">
-            @Model.WeekStart.ToShortDateString()
-        </dd>
-        <dt class="col-sm-2">
-            Total Duration
-        </dt>
-        <dd class="col-sm-10">
-            @Model.TotalDuration
-        </dd>
-        <dt class="col-sm-2">
-            Comments
-        </dt>
-        <dd class="col-sm-10">
-            @Model.Comments
-        </dd>
-    </dl>
+<h4>Plan</h4>
+<hr />
+<dl class="row">
+<dt class="col-sm-2">
+UserId
+</dt>
+<dd class="col-sm-10">
+@Model.UserId
+</dd>
+<dt class="col-sm-2">
+Week Start
+</dt>
+<dd class="col-sm-10">
+@Model.WeekStart.ToShortDateString()
+</dd>
+<dt class="col-sm-2">
+Total Duration
+</dt>
+<dd class="col-sm-10">
+@Model.TotalDuration
+</dd>
+<dt class="col-sm-2">
+Comments
+</dt>
+<dd class="col-sm-10">
+@Model.Comments
+</dd>
+</dl>
 </div>
 
 <h4>Trainings</h4>
 <table class="table">
-    <thead>
-        <tr>
-            <th>
-                Name
-            </th>
-            <th>
-                Description
-            </th>
-            <th>
-                Type
-            </th>
-            <th>
-                Duration
-            </th>
-            <th>
-                Difficulty
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var training in Model.Trainings)
-        {
-            <tr>
-                <td>
-                    @training.Name
-                </td>
-                <td>
-                    @training.Description
-                </td>
-                <td>
-                    @training.Type
-                </td>
-                <td>
-                    @training.Duration
-                </td>
-                <td>
-                    @training.Difficulty
-                </td>
-            </tr>
-        }
-    </tbody>
+<thead>
+<tr>
+<th>
+Name
+</th>
+<th>
+Description
+</th>
+<th>
+Type
+</th>
+<th>
+Duration
+</th>
+<th>
+Difficulty
+</th>
+</tr>
+</thead>
+<tbody>
+@foreach (var training in Model.Trainings)
+{
+<tr>
+<td>
+@training.Name
+</td>
+<td>
+@training.Description
+</td>
+<td>
+@training.Type
+</td>
+<td>
+@training.Duration
+</td>
+<td>
+@training.Difficulty
+</td>
+</tr>
+}
+</tbody>
 </table>
 
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+<a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+<a asp-action="Index">Back to List</a>
+</div> *@

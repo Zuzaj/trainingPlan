@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using trainingPlan.Models;
-using Microsoft.EntityFrameworkCore;
+
 
 namespace trainingPlan.Controllers
 {
