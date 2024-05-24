@@ -14,7 +14,7 @@ public class Startup
 
     public IConfiguration Configuration { get; }
 
-   public void ConfigureServices(IServiceCollection services)
+    public void ConfigureServices(IServiceCollection services)
     {
         // dodajemy kontekst bazy
         services.AddDbContext<AppDbContext>(options =>
