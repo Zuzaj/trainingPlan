@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace trainingPlan.Migrations
 {
     /// <inheritdoc />
-    public partial class NewModell : Migration
+    public partial class UpdateTrainingAndPlanView : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -84,7 +84,7 @@ namespace trainingPlan.Migrations
                     Duration = table.Column<int>(type: "INTEGER", nullable: false),
                     DifficultyId = table.Column<int>(type: "INTEGER", nullable: true),
                     TrainingTypeId = table.Column<int>(type: "INTEGER", nullable: true),
-                    PlanViewId = table.Column<int>(type: "INTEGER", nullable: true)
+                    PlanViewId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,7 +98,8 @@ namespace trainingPlan.Migrations
                         name: "FK_Trainings_PlanViews_PlanViewId",
                         column: x => x.PlanViewId,
                         principalTable: "PlanViews",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Trainings_TrainingTypes_TrainingTypeId",
                         column: x => x.TrainingTypeId,

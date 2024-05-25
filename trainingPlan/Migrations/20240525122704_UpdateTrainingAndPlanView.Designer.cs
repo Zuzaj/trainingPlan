@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace trainingPlan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240524132212_NewModell")]
-    partial class NewModell
+    [Migration("20240525122704_UpdateTrainingAndPlanView")]
+    partial class UpdateTrainingAndPlanView
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -79,7 +79,7 @@ namespace trainingPlan.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("PlanViewId")
+                    b.Property<int>("PlanViewId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("TrainingTypeId")
@@ -147,15 +147,19 @@ namespace trainingPlan.Migrations
                         .WithMany("Trainings")
                         .HasForeignKey("DifficultyId");
 
-                    b.HasOne("trainingPlan.Models.PlanView", null)
+                    b.HasOne("trainingPlan.Models.PlanView", "PlanView")
                         .WithMany("Trainings")
-                        .HasForeignKey("PlanViewId");
+                        .HasForeignKey("PlanViewId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("trainingPlan.Models.TrainingType", "TrainingType")
                         .WithMany("Trainings")
                         .HasForeignKey("TrainingTypeId");
 
                     b.Navigation("Difficulty");
+
+                    b.Navigation("PlanView");
 
                     b.Navigation("TrainingType");
                 });

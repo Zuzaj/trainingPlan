@@ -21,6 +21,10 @@ public class AppDbContext : DbContext
             .WithMany(u => u.PlanViews)
             .HasForeignKey(p => p.UserId);
 
+        modelBuilder.Entity<Training>()
+            .HasOne(t => t.PlanView)
+            .WithMany(p => p.Trainings)
+            .HasForeignKey(t => t.PlanViewId);
 
         // Configuring one-to-many relationship between Difficulty and Training
         modelBuilder.Entity<Training>()
