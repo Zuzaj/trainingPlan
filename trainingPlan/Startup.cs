@@ -66,20 +66,34 @@ public class Startup
         {
             var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
 
-            // Check if there are any users in the database
             if (!context.Users.Any())
             {
-                // Create the initial admin user
                 var adminUser = new User
                 {
                     Username = "admin",
-                    PasswordHash = HashPassword("admin123"), // Set a default password for admin
-                    // You can add other properties if needed
+                    PasswordHash = HashPassword("admin123"),
                 };
 
                 context.Users.Add(adminUser);
                 context.SaveChanges();
             }
+            if (!context.Difficulties.Any())
+            {
+                context.Difficulties.AddRange(
+                    new Difficulty { Name = "Łatwo" },
+                    new Difficulty { Name = "Trudno" }
+                );
+            }
+
+            // Check and add initial data for TrainingType
+            if (!context.TrainingTypes.Any())
+            {
+                context.TrainingTypes.AddRange(
+                    new TrainingType { Name = "Siłowy" },
+                    new TrainingType { Name = "Cardio" }
+                );
+            }
+            context.SaveChanges();
         }
     }
 

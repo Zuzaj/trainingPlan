@@ -76,7 +76,7 @@ namespace trainingPlan.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("PlanViewId")
+                    b.Property<int?>("PlanViewId")
                         .HasColumnType("INTEGER");
 
                     b.Property<int?>("TrainingTypeId")
@@ -146,9 +146,7 @@ namespace trainingPlan.Migrations
 
                     b.HasOne("trainingPlan.Models.PlanView", "PlanView")
                         .WithMany("Trainings")
-                        .HasForeignKey("PlanViewId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PlanViewId");
 
                     b.HasOne("trainingPlan.Models.TrainingType", "TrainingType")
                         .WithMany("Trainings")

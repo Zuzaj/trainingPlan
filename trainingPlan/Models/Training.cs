@@ -12,9 +12,8 @@ namespace trainingPlan.Models
         public Difficulty? Difficulty { get; set; }
         public int? TrainingTypeId { get; set; }
         public TrainingType? TrainingType { get; set; }
-        //add:
-        public int PlanViewId { get; set; }
-        public PlanView PlanView { get; set; } = default!;
+        public int? PlanViewId { get; set; } = null;
+        public PlanView? PlanView { get; set; } = null;
 
     }
 }

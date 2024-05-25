@@ -1,3 +1,49 @@
+@* @model trainingPlan.Models.Training
+
+@{
+ViewData["Title"] = "Create Training";
+}
+
+<h2>Create Training</h2>
+
+<form asp-action="Create" method="post">
+<div class="form-group">
+<label asp-for="Name" class="control-label"></label>
+<input asp-for="Name" class="form-control" />
+<span asp-validation-for="Name" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="Description" class="control-label"></label>
+<input asp-for="Description" class="form-control" />
+<span asp-validation-for="Description" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="TrainingType" class="control-label"></label>
+<input asp-for="TrainingType" class="form-control" />
+<span asp-validation-for="TrainingType" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="Duration" class="control-label"></label>
+<input asp-for="Duration" class="form-control" />
+<span asp-validation-for="Duration" class="text-danger"></span>
+</div>
+<div class="form-group">
+<label asp-for="Difficulty" class="control-label"></label>
+<input asp-for="Difficulty" class="form-control" />
+<span asp-validation-for="Difficulty" class="text-danger"></span>
+</div>
+<button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+<div>
+<a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+@{
+await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+} *@
 @model trainingPlan.Models.Training
 
 @{
@@ -18,19 +64,31 @@
         <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="TrainingType" class="control-label"></label>
-        <input asp-for="TrainingType" class="form-control" />
-        <span asp-validation-for="TrainingType" class="text-danger"></span>
-    </div>
-    <div class="form-group">
         <label asp-for="Duration" class="control-label"></label>
         <input asp-for="Duration" class="form-control" />
         <span asp-validation-for="Duration" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Difficulty" class="control-label"></label>
-        <input asp-for="Difficulty" class="form-control" />
-        <span asp-validation-for="Difficulty" class="text-danger"></span>
+        <label asp-for="DifficultyId" class="control-label">Difficulty</label>
+        <select asp-for="DifficultyId" class="form-control">
+            <option value="">Select Difficulty</option>
+            @foreach (var difficulty in ViewBag.Difficulties as List<trainingPlan.Models.Difficulty>)
+            {
+                <option value="@difficulty.Id">@difficulty.Name</option>
+            }
+        </select>
+        <span asp-validation-for="DifficultyId" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="TrainingTypeId" class="control-label">Training Type</label>
+        <select asp-for="TrainingTypeId" class="form-control">
+            <option value="">Select Training Type</option>
+            @foreach (var trainingType in ViewBag.TrainingTypes as List<trainingPlan.Models.TrainingType>)
+            {
+                <option value="@trainingType.Id">@trainingType.Name</option>
+            }
+        </select>
+        <span asp-validation-for="TrainingTypeId" class="text-danger"></span>
     </div>
     <button type="submit" class="btn btn-primary">Create</button>
 </form>
