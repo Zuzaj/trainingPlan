@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace trainingPlan.Migrations
 {
     /// <inheritdoc />
-    public partial class Update4 : Migration
+    public partial class newmigr : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

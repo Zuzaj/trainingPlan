@@ -9,16 +9,15 @@ namespace trainingPlan.Models
     {
         public int Id { get; set; }
 
-        [Required]
-        public int UserId { get; set; }
-        public User User { get; set; } = default!;
+        public int? UserId { get; set; } = null;
+        public User? User { get; set; } = null;
 
         [Required]
         public DateTime WeekStart { get; set; }
 
         public int TotalDuration { get; set; }
 
-        public ICollection<Training> Trainings { get; set; } = new List<Training>();
+        public ICollection<Training>? Trainings { get; set; } = new List<Training>();
         [NotMapped]
         public List<int> TrainingIds { get; set; } = new List<int>();
         public string? Comments { get; set; }

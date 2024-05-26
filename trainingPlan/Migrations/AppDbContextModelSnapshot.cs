@@ -43,7 +43,8 @@ namespace trainingPlan.Migrations
                     b.Property<int>("TotalDuration")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("WeekStart")

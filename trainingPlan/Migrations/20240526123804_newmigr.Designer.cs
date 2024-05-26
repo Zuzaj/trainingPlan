@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace trainingPlan.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240525195444_Update4")]
-    partial class Update4
+    [Migration("20240526123804_newmigr")]
+    partial class newmigr
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,7 +46,8 @@ namespace trainingPlan.Migrations
                     b.Property<int>("TotalDuration")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
+                        .IsRequired()
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("WeekStart")
