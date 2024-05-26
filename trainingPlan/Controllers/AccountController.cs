@@ -1,16 +1,5 @@
 
 
-//     private bool UserIsAdmin()
-//     {
-//         var userId = HttpContext.Session.GetString("UserId");
-//         if (userId != null)
-//         {
-//             var user = _context.Users.Find(int.Parse(userId));
-//             return user != null && user.Username == "admin";
-//         }
-//         return false;
-//     }
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;

@@ -37,5 +37,9 @@ public class AppDbContext : DbContext
             .HasOne(t => t.TrainingType)
             .WithMany(tt => tt.Trainings)
             .HasForeignKey(t => t.TrainingTypeId);
+            modelBuilder.Entity<PlanView>()
+        .HasMany(p => p.Trainings)
+        .WithOne(t => t.PlanView)
+        .OnDelete(DeleteBehavior.Cascade);    
     }
 }
