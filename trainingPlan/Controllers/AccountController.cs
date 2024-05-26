@@ -114,6 +114,7 @@ namespace trainingPlan.Controllers
             var user = await _context.Users.SingleOrDefaultAsync(u => u.Username == username);
             if (user != null && VerifyPassword(password, user.PasswordHash))
             {
+                HttpContext.Session.SetString("UserId", user.Id.ToString());
                 HttpContext.Session.SetString("Username", username);
                 HttpContext.Session.SetString("LoggedIn", "true");
                 return RedirectToAction("Index", "Home");

@@ -1,26 +1,25 @@
 @model IEnumerable<trainingPlan.Models.PlanView>
 
 @{
-    ViewData["Title"] = "Your Plan";
+    ViewData["Title"] = "Index";
 }
 
-<h1>Your Plans</h1>
+<h1>My Plans</h1>
 
 <p>
-    <a asp-action="Create">Modify Plan</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Plan</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
-            </th>
-
-            <th>
                 @Html.DisplayNameFor(model => model.WeekStart)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.TotalDuration)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Comments)
             </th>
             <th></th>
         </tr>
@@ -30,18 +29,18 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Id)
-                </td>
-                <td>
                     @Html.DisplayFor(modelItem => item.WeekStart)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.TotalDuration)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    @Html.DisplayFor(modelItem => item.Comments)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

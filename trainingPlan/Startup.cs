@@ -22,7 +22,12 @@ public class Startup
         // dodajemy kontekst bazy
         services.AddDbContext<AppDbContext>(options =>
             options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
-
+        services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+        .AddCookie(options =>
+        {
+            options.LoginPath = "/Account/Login";
+            options.AccessDeniedPath = "/Account/AccessDenied";
+        });
 
         services.AddSession();
         services.AddControllersWithViews();
