@@ -21,14 +21,11 @@ namespace trainingPlan.Controllers
         [HttpGet("")]
         public async Task<IActionResult> Index()
         {
-            // return _context.Trainings != null ?
-            //     View(await _context.Trainings.Include(t => t.Difficulty).Include(t => t.TrainingType).ToListAsync()) :
-            //     Problem("Entity set is null.");
+
             var difficulties = await _context.Difficulties.ToListAsync();
             var trainingTypes = await _context.TrainingTypes.ToListAsync();
-            // Tymczasowy kod do sprawdzenia wartości
-            ViewBag.Difficulties = difficulties;
-            ViewBag.TrainingTypes = trainingTypes;
+            // ViewBag.Difficulties = difficulties;
+            // ViewBag.TrainingTypes = trainingTypes;
 
             return _context.Trainings != null ?
                 View(await _context.Trainings.Include(t => t.Difficulty).Include(t => t.TrainingType).ToListAsync()) :
@@ -58,6 +55,117 @@ namespace trainingPlan.Controllers
             return View(training);
         }
 
+ [HttpGet("{id}/edit")]
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var training = await _context.Trainings.FindAsync(id);
+            if (training == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Difficulties = await _context.Difficulties.ToListAsync();
+            ViewBag.TrainingTypes = await _context.TrainingTypes.ToListAsync();
+            return View(training);
+        }
+
+        [HttpPost("{id}/edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, Training training)
+        {
+            if (id != training.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(training);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TrainingExists(training.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewBag.Difficulties = await _context.Difficulties.ToListAsync();
+            ViewBag.TrainingTypes = await _context.TrainingTypes.ToListAsync();
+            return View(training);
+        }
+
+        [HttpGet("{id}/details")]
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var training = await _context.Trainings
+                .Include(t => t.Difficulty)
+                .Include(t => t.TrainingType)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (training == null)
+            {
+                return NotFound();
+            }
+
+            return View(training);
+        }
+ [HttpGet("delete/{id}")]
+        public async Task<IActionResult> Delete(int? id)
+{
+    if (id == null)
+    {
+        return NotFound();
+    }
+
+    var training = await _context.Trainings
+                                     .Include(t => t.TrainingType)
+                                     .FirstOrDefaultAsync(m => m.Id == id);
+    if (training == null)
+    {
+        return NotFound();
+    }
+
+    return View(training);
+}
+
+// POST: PlanView/Delete/5
+ [HttpPost("delete/{id}")]
+[ValidateAntiForgeryToken]
+public async Task<IActionResult> DeleteConfirmed(int id)
+{
+     var training = await _context.Trainings.FindAsync(id);
+    if (training == null)
+    {
+        return NotFound();
+    }
+
+    _context.Trainings.Remove(training);
+    await _context.SaveChangesAsync();
+    return RedirectToAction(nameof(Index));
+}
+        private bool TrainingExists(int id)
+        {
+            return _context.Trainings.Any(e => e.Id == id);
+        }
+    
         [HttpGet("error")]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

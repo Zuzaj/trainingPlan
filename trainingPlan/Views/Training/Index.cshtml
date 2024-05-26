@@ -6,7 +6,7 @@
 <h1>@ViewData["Title"]</h1>
 
 <p>
-    <a asp-action="Create">Create new</a>
+    <a asp-action="Create" class="btn btn-primary">Create new</a>
 </p>
 <table class="table">
     <thead>
@@ -18,13 +18,13 @@
                 @Html.DisplayNameFor(model => model.Description)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.TrainingType.Name)
+                @Html.DisplayNameFor(model => model.TrainingType)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Duration)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Difficulty.Name)
+                @Html.DisplayNameFor(model => model.Difficulty)
             </th>
             <th></th>
         </tr>
@@ -40,18 +40,18 @@
                     @Html.DisplayFor(modelItem => item.Description)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.TrainingType)
+                    @Html.DisplayFor(modelItem => item.TrainingType.Name)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Duration)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Difficulty)
+                    @Html.DisplayFor(modelItem => item.Difficulty.Name)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a>
+                    @* <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary">Details</a> *@
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-primary">Delete</a>
                 </td>
             </tr>
         }
