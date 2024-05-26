@@ -8,6 +8,29 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create new</a>
 </p>
+<form method="get" asp-action="Index">
+    <div class="form-group">
+        <label for="difficultyId">Difficulty</label>
+        <select id="difficultyId" name="difficultyId" class="form-control">
+            <option value="">All</option>
+            @foreach (var difficulty in (SelectList)ViewBag.Difficulties)
+            {
+                <option value="@difficulty.Value">@difficulty.Text</option>
+            }
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="trainingTypeId">Training Type</label>
+        <select id="trainingTypeId" name="trainingTypeId" class="form-control">
+            <option value="">All</option>
+            @foreach (var trainingType in (SelectList)ViewBag.TrainingTypes)
+            {
+                <option value="@trainingType.Value">@trainingType.Text</option>
+            }
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Filter</button>
+</form>
 <table class="table">
     <thead>
         <tr>

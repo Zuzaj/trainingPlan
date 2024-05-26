@@ -1,8 +1,13 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Welcome";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Welcome to the Training Plan</h1>
+
+<p>
+    Welcome to the training plan application! Here you can create, manage, and track your training plans to achieve your fitness goals.
+</p>
+
+<a asp-controller="PlanView" asp-action="Index" class="btn btn-primary">View Training Plans</a>
+<a asp-controller="Training" asp-action="Index" class="btn btn-secondary">View Trainings</a>
+<a asp-controller="PlanView" asp-action="Create" class="btn btn-success">Create New Plan</a>

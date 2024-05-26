@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using trainingPlan.Models;
 
@@ -18,19 +19,46 @@ namespace trainingPlan.Controllers
             _context = context;
         }
 
-        [HttpGet("")]
-        public async Task<IActionResult> Index()
+        // [HttpGet("")]
+        // public async Task<IActionResult> Index()
+        // {
+
+        //     var difficulties = await _context.Difficulties.ToListAsync();
+        //     var trainingTypes = await _context.TrainingTypes.ToListAsync();
+        //     // ViewBag.Difficulties = difficulties;
+        //     // ViewBag.TrainingTypes = trainingTypes;
+
+        //     return _context.Trainings != null ?
+        //         View(await _context.Trainings.Include(t => t.Difficulty).Include(t => t.TrainingType).ToListAsync()) :
+        //         Problem("Entity set is null.");
+        // }
+        public async Task<IActionResult> Index(int? difficultyId, int? trainingTypeId)
+    {
+        var difficulties = await _context.Difficulties.ToListAsync();
+        var trainingTypes = await _context.TrainingTypes.ToListAsync();
+
+        ViewBag.Difficulties = new SelectList(difficulties, "Id", "Name");
+        ViewBag.TrainingTypes = new SelectList(trainingTypes, "Id", "Name");
+
+        var trainingsQuery = _context.Trainings
+            .Include(t => t.Difficulty)
+            .Include(t => t.TrainingType)
+            .AsQueryable();
+
+        if (difficultyId.HasValue)
         {
-
-            var difficulties = await _context.Difficulties.ToListAsync();
-            var trainingTypes = await _context.TrainingTypes.ToListAsync();
-            // ViewBag.Difficulties = difficulties;
-            // ViewBag.TrainingTypes = trainingTypes;
-
-            return _context.Trainings != null ?
-                View(await _context.Trainings.Include(t => t.Difficulty).Include(t => t.TrainingType).ToListAsync()) :
-                Problem("Entity set is null.");
+            trainingsQuery = trainingsQuery.Where(t => t.DifficultyId == difficultyId.Value);
         }
+
+        if (trainingTypeId.HasValue)
+        {
+            trainingsQuery = trainingsQuery.Where(t => t.TrainingTypeId == trainingTypeId.Value);
+        }
+
+        var trainings = await trainingsQuery.ToListAsync();
+        return View(trainings);
+    }
+
 
         [HttpGet("create")]
         public async Task<IActionResult> Create()
