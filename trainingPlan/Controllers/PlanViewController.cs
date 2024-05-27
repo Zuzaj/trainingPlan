@@ -13,12 +13,11 @@ namespace trainingPlan.Controllers
     public class PlanViewController : Controller
     {
         private readonly AppDbContext _context;
-        private readonly ILogger<PlanViewController> _logger;
 
-        public PlanViewController(AppDbContext context, ILogger<PlanViewController> logger)
+        public PlanViewController(AppDbContext context)
         {
             _context = context;
-            _logger = logger;
+
         }
 
         // GET: PlanView
@@ -39,28 +38,15 @@ namespace trainingPlan.Controllers
             return View();
         }
 
-        // POST: PlanView/Create
+        //POST: PlanView/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("WeekStart,TotalDuration,Comments,TrainingIds")] PlanView planView)
         {
-            _logger.LogInformation("Starting Create method");
-
-            // Ustawienie UserId przed walidacją modelu
             planView.UserId = GetUserId();
-            _logger.LogInformation($"UserId: {planView.UserId}");
 
             if (ModelState.IsValid)
             {
-                _logger.LogInformation("Model state is valid");
-
-                // Logowanie wartości
-                _logger.LogInformation($"WeekStart: {planView.WeekStart}");
-                _logger.LogInformation($"TotalDuration: {planView.TotalDuration}");
-                _logger.LogInformation($"Comments: {planView.Comments}");
-                _logger.LogInformation($"TrainingIds: {string.Join(", ", planView.TrainingIds)}");
-
-                // Retrieve and assign the selected trainings
                 if (planView.TrainingIds != null && planView.TrainingIds.Any())
                 {
                     planView.Trainings = await _context.Trainings
@@ -70,27 +56,13 @@ namespace trainingPlan.Controllers
                 CalculateTotalDuration(planView);
                 _context.Add(planView);
                 await _context.SaveChangesAsync();
-                _logger.LogInformation("PlanView successfully created");
                 return RedirectToAction(nameof(Index));
-            }
-
-            _logger.LogWarning("Model state is not valid");
-            foreach (var state in ModelState)
-            {
-                if (state.Value.Errors.Any())
-                {
-                    foreach (var error in state.Value.Errors)
-                    {
-                        _logger.LogError($"Key: {state.Key}, Error: {error.ErrorMessage}");
-                    }
-                }
             }
 
             ViewBag.Trainings = new MultiSelectList(_context.Trainings, "Id", "Name", planView.TrainingIds);
             return View(planView);
         }
 
-        // Other actions...
 
         private bool PlanViewExists(int id)
         {
@@ -163,7 +135,6 @@ namespace trainingPlan.Controllers
             {
                 try
                 {
-                    // Retrieve and assign the selected trainings
                     if (planView.TrainingIds != null && planView.TrainingIds.Any())
                     {
                         planView.Trainings = await _context.Trainings
@@ -180,13 +151,11 @@ namespace trainingPlan.Controllers
                         return NotFound();
                     }
 
-                    // Update properties of the original plan
                     originalPlan.WeekStart = planView.WeekStart;
                     originalPlan.Comments = planView.Comments;
                     originalPlan.Trainings = planView.Trainings;
                     originalPlan.TrainingIds = planView.TrainingIds;
                     CalculateTotalDuration(originalPlan);
-                    // Save changes
                     _context.Update(originalPlan);
 
                     await _context.SaveChangesAsync();

@@ -1,4 +1,7 @@
 @model PlanView
+@{
+    ViewData["Title"] = "Delete";
+}
 
 <h1>Delete Plan</h1>
 
@@ -9,8 +12,6 @@
     <dl class="row">
         <dt class="col-sm-2">Week Start:</dt>
         <dd class="col-sm-10">@Model.WeekStart</dd>
-        
-        <!-- Add other plan details here -->
     </dl>
     <form asp-action="Delete" asp-route-id="@Model.Id" method="post">
         <input type="submit" value="Delete" class="btn btn-danger" />

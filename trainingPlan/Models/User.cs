@@ -16,8 +16,6 @@ namespace trainingPlan.Models
         public string Password { get; set; } = default!;
 
         public ICollection<PlanView> PlanViews { get; set; } = new List<PlanView>();
-
-        // Konstruktor
         public User()
         {
             PasswordHash = string.Empty;

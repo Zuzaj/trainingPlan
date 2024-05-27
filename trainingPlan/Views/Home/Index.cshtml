@@ -5,9 +5,20 @@
 <h1>Welcome to the Training Plan</h1>
 
 <p>
-    Welcome to the training plan application! Here you can create, manage, and track your training plans to achieve your fitness goals.
+    Welcome to the training plan application! Here you can create, manage, and track your training plans to achieve your
+    fitness goals.
 </p>
 
-<a asp-controller="PlanView" asp-action="Index" class="btn btn-primary">View Training Plans</a>
-<a asp-controller="Training" asp-action="Index" class="btn btn-secondary">View Trainings</a>
-<a asp-controller="PlanView" asp-action="Create" class="btn btn-success">Create New Plan</a>
+@if (Context.Session.GetString("LoggedIn") == "true")
+{
+    <a asp-controller="PlanView" asp-action="Index" class="btn btn-primary">View Training Plans</a>
+    <a asp-controller="Training" asp-action="Index" class="btn btn-secondary">View Trainings</a>
+    <a asp-controller="PlanView" asp-action="Create" class="btn btn-success">Create New Plan</a>
+}
+else
+{
+    <a asp-controller="Account" asp-action="Login" class="btn btn-primary">View Training Plans</a>
+    <a asp-controller="Account" asp-action="Login" class="btn btn-secondary">View Trainings</a>
+    <a asp-controller="Account" asp-action="Login" class="btn btn-success">Create New Plan</a>
+
+}
