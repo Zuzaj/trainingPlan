@@ -97,6 +97,7 @@ namespace trainingPlan.Controllers
             return _context.PlanViews.Any(e => e.Id == id);
         }
 
+
         private int GetUserId()
         {
             var userIdString = HttpContext.Session.GetString("UserId");
@@ -124,134 +125,134 @@ namespace trainingPlan.Controllers
 
             return View(planView);
         }
-        
+
         private bool PlanExists(int id)
         {
             return _context.PlanViews.Any(e => e.Id == id);
         }
         public async Task<IActionResult> Edit(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
-
-    var planView = await _context.PlanViews
-                                 .Include(p => p.Trainings)
-                                 .FirstOrDefaultAsync(m => m.Id == id);
-    if (planView == null)
-    {
-        return NotFound();
-    }
-
-    ViewBag.Trainings = new MultiSelectList(_context.Trainings, "Id", "Name", planView.Trainings.Select(t => t.Id));
-    return View(planView);
-}
-
-// POST: PlanView/Edit/5
-[HttpPost]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> Edit(int id, [Bind("Id,WeekStart,TotalDuration,Comments,TrainingIds")] PlanView planView)
-{
-    if (id != planView.Id)
-    {
-        return NotFound();
-    }
-
-    if (ModelState.IsValid)
-    {
-        try
         {
-            // Retrieve and assign the selected trainings
-            if (planView.TrainingIds != null && planView.TrainingIds.Any())
-            {
-                planView.Trainings = await _context.Trainings
-                    .Where(t => planView.TrainingIds.Contains(t.Id))
-                    .ToListAsync();
-            }
-
-            var originalPlan = await _context.PlanViews
-                .Include(p => p.Trainings)
-                .FirstOrDefaultAsync(p => p.Id == id);
-
-            if (originalPlan == null)
+            if (id == null)
             {
                 return NotFound();
             }
 
-            // Update properties of the original plan
-            originalPlan.WeekStart = planView.WeekStart;
-            originalPlan.Comments = planView.Comments;
-            originalPlan.Trainings = planView.Trainings;
-            originalPlan.TrainingIds = planView.TrainingIds;
-            CalculateTotalDuration(originalPlan);
-            // Save changes
-            _context.Update(originalPlan);
-            
+            var planView = await _context.PlanViews
+                                         .Include(p => p.Trainings)
+                                         .FirstOrDefaultAsync(m => m.Id == id);
+            if (planView == null)
+            {
+                return NotFound();
+            }
+
+            ViewBag.Trainings = new MultiSelectList(_context.Trainings, "Id", "Name", planView.Trainings.Select(t => t.Id));
+            return View(planView);
+        }
+
+        // POST: PlanView/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,WeekStart,TotalDuration,Comments,TrainingIds")] PlanView planView)
+        {
+            if (id != planView.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    // Retrieve and assign the selected trainings
+                    if (planView.TrainingIds != null && planView.TrainingIds.Any())
+                    {
+                        planView.Trainings = await _context.Trainings
+                            .Where(t => planView.TrainingIds.Contains(t.Id))
+                            .ToListAsync();
+                    }
+
+                    var originalPlan = await _context.PlanViews
+                        .Include(p => p.Trainings)
+                        .FirstOrDefaultAsync(p => p.Id == id);
+
+                    if (originalPlan == null)
+                    {
+                        return NotFound();
+                    }
+
+                    // Update properties of the original plan
+                    originalPlan.WeekStart = planView.WeekStart;
+                    originalPlan.Comments = planView.Comments;
+                    originalPlan.Trainings = planView.Trainings;
+                    originalPlan.TrainingIds = planView.TrainingIds;
+                    CalculateTotalDuration(originalPlan);
+                    // Save changes
+                    _context.Update(originalPlan);
+
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PlanViewExists(planView.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            ViewBag.Trainings = new MultiSelectList(_context.Trainings, "Id", "Name", planView.Trainings.Select(t => t.Id));
+            return View(planView);
+        }
+        // GET: PlanView/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var planView = await _context.PlanViews
+                                         .FirstOrDefaultAsync(m => m.Id == id);
+            if (planView == null)
+            {
+                return NotFound();
+            }
+
+            return View(planView);
+        }
+
+        // POST: PlanView/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var planView = await _context.PlanViews.FindAsync(id);
+            if (planView == null)
+            {
+                return NotFound();
+            }
+
+            _context.PlanViews.Remove(planView);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        catch (DbUpdateConcurrencyException)
+        private void CalculateTotalDuration(PlanView planView)
         {
-            if (!PlanViewExists(planView.Id))
+            int totalDuration = 0;
+            foreach (var trainingId in planView.TrainingIds)
             {
-                return NotFound();
+                var training = _context.Trainings.Find(trainingId);
+                if (training != null)
+                {
+                    totalDuration += training.Duration;
+                }
             }
-            else
-            {
-                throw;
-            }
+            planView.TotalDuration = totalDuration;
         }
-    }
-
-    ViewBag.Trainings = new MultiSelectList(_context.Trainings, "Id", "Name", planView.Trainings.Select(t => t.Id));
-    return View(planView);
-}
-// GET: PlanView/Delete/5
-public async Task<IActionResult> Delete(int? id)
-{
-    if (id == null)
-    {
-        return NotFound();
-    }
-
-    var planView = await _context.PlanViews
-                                 .FirstOrDefaultAsync(m => m.Id == id);
-    if (planView == null)
-    {
-        return NotFound();
-    }
-
-    return View(planView);
-}
-
-// POST: PlanView/Delete/5
-[HttpPost, ActionName("Delete")]
-[ValidateAntiForgeryToken]
-public async Task<IActionResult> DeleteConfirmed(int id)
-{
-     var planView = await _context.PlanViews.FindAsync(id);
-    if (planView == null)
-    {
-        return NotFound();
-    }
-
-    _context.PlanViews.Remove(planView);
-    await _context.SaveChangesAsync();
-    return RedirectToAction(nameof(Index));
-}
-private void CalculateTotalDuration(PlanView planView)
-{
-    int totalDuration = 0;
-    foreach (var trainingId in planView.TrainingIds)
-    {
-        var training = _context.Trainings.Find(trainingId);
-        if (training != null)
-        {
-            totalDuration += training.Duration;
-        }
-    }
-    planView.TotalDuration = totalDuration;
-}
     }
 }
